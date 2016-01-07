@@ -39,17 +39,8 @@ import java.util.Vector;
 public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
 
     private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
-    //private ArrayAdapter<String> mMoviesAdapter;
 
-    private int qtyMovies;
-    private String []resultTitle;
-    public static String []resultUrlMovies;
-    private String []resultOverview;
-    private String []resultAverage;
-    private String []resultRelease;
-    private String []resultId;
     private String orderBy;
-    private String movieId;
     public Context mContext;
 
     public FetchMovieTask(Context context) {
@@ -72,13 +63,10 @@ public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
             JSONObject moviesJson = new JSONObject(moviesJsonStr);
             JSONArray moviesArray = moviesJson.getJSONArray(JSON_LIST);
 
-            // Insert the new weather information into the database
             Vector<ContentValues> cVVector = new Vector<ContentValues>(moviesArray.length());
 
             for (int i = 0; i < moviesArray.length(); i++) {
 
-
-                // Get the JSON object representing the day
                 JSONObject movie = moviesArray.getJSONObject(i);
                 String overview = movie.getString(JSON_OVERVIEW);
                 String release = movie.getString(JSON_RELEASE);
@@ -131,7 +119,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
 
         String moviesJsonStr = null;
 
-        int qtyMovies = 10;
 
         try {
 
@@ -139,24 +126,18 @@ public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
             final String APIKEY_PARAM = "api_key";
 
             Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
-                    //.appendQueryParameter(SORT_PARAM, sortByRates)
                     .appendQueryParameter(APIKEY_PARAM, BuildConfig.OPEN_TMDB_MAP_API_KEY)
                     .build();
 
             URL url = new URL(builtUri.toString());
 
-            Log.v(LOG_TAG, "Built URI " + builtUri.toString());
-
-            // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
-                // Nothing to do.
                 return null;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -167,10 +148,11 @@ public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
             }
 
             if (buffer.length() == 0) {
-                // Stream was empty.  No point in parsing.
                 return null;
             }
             moviesJsonStr = buffer.toString();
+
+            Log.d(LOG_TAG, "Buffer " + moviesJsonStr);
 
             getMoviesDataFromJson(moviesJsonStr);
 
@@ -181,8 +163,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
         }
         catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attemping
-            // to parse it.
             return null;
         } finally {
             if (urlConnection != null) {
@@ -198,7 +178,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
         }
 
 
-        // This will only happen if there was an error getting or parsing the forecast.
         return null;
     }
 

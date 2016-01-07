@@ -27,7 +27,6 @@ import android.util.Log;
 
 public class MoviesProvider extends ContentProvider {
 
-    // The URI Matcher used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private MovieDbHelper mOpenHelper;
 
@@ -41,7 +40,6 @@ public class MoviesProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MovieContract.CONTENT_AUTHORITY;
 
-        // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIE);
         matcher.addURI(authority, MovieContract.PATH_MOVIE + "/*", MOVIE_WITH_ID);
         matcher.addURI(authority, MovieContract.PATH_FAVORITE, FAVORITE);
@@ -55,7 +53,6 @@ public class MoviesProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
 
-        // Use the Uri Matcher to determine what kind of URI this is.
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
@@ -69,10 +66,6 @@ public class MoviesProvider extends ContentProvider {
         }
     }
 
-    /*
-        Students: We've coded this for you.  We just create a new MovieDbHelper for later use
-        here.
-     */
     @Override
     public boolean onCreate() {
         mOpenHelper = new MovieDbHelper(getContext());
@@ -147,10 +140,6 @@ public class MoviesProvider extends ContentProvider {
 
         return retCursor;
     }
-
-    /*
-        Student: Add the ability to insert Locations to the implementation of this function.
-     */
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
@@ -282,9 +271,6 @@ public class MoviesProvider extends ContentProvider {
         }
     }
 
-    // You do not need to call this method. This is a method specifically to assist the testing
-    // framework in running smoothly. You can read more at:
-    // http://developer.android.com/reference/android/content/ContentProvider.html#shutdown()
     @Override
     @TargetApi(11)
     public void shutdown() {

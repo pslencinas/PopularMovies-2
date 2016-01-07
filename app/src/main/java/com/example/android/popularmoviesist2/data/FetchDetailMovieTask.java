@@ -40,16 +40,6 @@ import java.util.Vector;
 public class FetchDetailMovieTask extends AsyncTask<String, Void, String[]> {
 
     private final String LOG_TAG = FetchDetailMovieTask.class.getSimpleName();
-    //private ArrayAdapter<String> mMoviesAdapter;
-
-    private int qtyMovies;
-    private String []resultTitle;
-    public static String []resultUrlMovies;
-    private String []resultOverview;
-    private String []resultAverage;
-    private String []resultRelease;
-    private String []resultId;
-    private String orderBy;
     private String movieId;
     public Context mContext;
 
@@ -70,9 +60,6 @@ public class FetchDetailMovieTask extends AsyncTask<String, Void, String[]> {
         try {
             JSONObject moviesJson = new JSONObject(moviesJsonStr);
             JSONArray moviesArray = moviesJson.getJSONArray(JSON_LIST);
-
-            // Insert the new weather information into the database
-            Vector<ContentValues> cVVector = new Vector<ContentValues>(moviesArray.length());
 
             for (int i = 0; i < moviesArray.length(); i++) {
 
@@ -104,8 +91,7 @@ public class FetchDetailMovieTask extends AsyncTask<String, Void, String[]> {
 
         String moviesJsonStr = null;
 
-        int qtyMovies = 10;
-        final String MOVIE_REVIEW_URL = "http://api.themoviedb.org/3/movie/"+movieId+"/reviews";
+       final String MOVIE_REVIEW_URL = "http://api.themoviedb.org/3/movie/"+movieId+"/reviews";
 
         final String APIKEY_PARAM = "api_key";
 
@@ -116,9 +102,6 @@ public class FetchDetailMovieTask extends AsyncTask<String, Void, String[]> {
 
             URL url = new URL(builtUri.toString());
 
-            //Log.v(LOG_TAG, "Built URI " + builtUri.toString());
-
-            // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
@@ -142,16 +125,12 @@ public class FetchDetailMovieTask extends AsyncTask<String, Void, String[]> {
             //Log.v(LOG_TAG, "Movies string: " + moviesJsonStr);
             return getMoviesDataFromJson(moviesJsonStr);
 
-
-
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
         }
         catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attemping
-            // to parse it.
             return null;
         } finally {
             if (urlConnection != null) {
@@ -166,8 +145,6 @@ public class FetchDetailMovieTask extends AsyncTask<String, Void, String[]> {
             }
         }
 
-
-        // This will only happen if there was an error getting or parsing the forecast.
         return null;
     }
 

@@ -28,9 +28,7 @@ import com.example.android.popularmoviesist2.data.MovieContract;
 import com.squareup.picasso.Picasso;
 
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class MovieFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private final String LOG_TAG = MovieFragment.class.getSimpleName();
@@ -117,8 +115,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // CursorAdapter returns a cursor at the correct position for getItem(), or null
-                // if it cannot seek to that position.
+
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
 
@@ -140,13 +137,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         super.onActivityCreated(savedInstanceState);
     }
 
-    // since we read the location when we create the loader, all we need to do is restart things
+
     void onMovieChanged( ) {
         updateMovies();
         getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
     }
-
-
 
 
     public void updateMovies(){
@@ -205,9 +200,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         mMovieAdapter.swapCursor(null);
     }
 
-    public void setUseTodayLayout(boolean useTodayLayout) {
 
-    }
 }
 
 

@@ -48,16 +48,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        DetailFragment ff = (DetailFragment)getSupportFragmentManager().findFragmentById(R.id.movies_detail_container);
-        ff.onChanged();
-
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_detail, menu);
@@ -66,9 +56,6 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -86,7 +73,6 @@ public class DetailActivity extends AppCompatActivity {
     public void addToFavorites(){
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
-        int inserted=0;
 
         ContentValues movieValues = new ContentValues();
 

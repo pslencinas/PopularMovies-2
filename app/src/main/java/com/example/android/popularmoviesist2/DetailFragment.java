@@ -24,9 +24,6 @@ import com.example.android.popularmoviesist2.data.FetchTrailerMovieTask;
 import com.example.android.popularmoviesist2.data.MovieContract;
 import com.squareup.picasso.Picasso;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
@@ -80,13 +77,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,11 +118,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
-        new FetchTrailerMovieTask(getActivity()).execute(MovieContract.MovieEntry.getMovieIDbyUri(mUri));
-        new FetchDetailMovieTask(getActivity()).execute(MovieContract.MovieEntry.getMovieIDbyUri(mUri));
-
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
-
         super.onActivityCreated(savedInstanceState);
     }
 

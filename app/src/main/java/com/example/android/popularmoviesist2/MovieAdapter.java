@@ -19,9 +19,6 @@ public class MovieAdapter extends CursorAdapter {
 
     private boolean mUseTodayLayout = true;
 
-    /**
-     * Cache of the children views for a forecast list item.
-     */
     public static class ViewHolder {
         public final ImageView imageView;
 
@@ -37,7 +34,6 @@ public class MovieAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        // Choose the layout type
         int layoutId = -1;
 
         layoutId = R.layout.list_item_movies;

@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.popularmoviesist2.data.FetchDetailMovieTask;
+import com.example.android.popularmoviesist2.data.FetchTrailerMovieTask;
+import com.example.android.popularmoviesist2.data.MovieContract;
+
 public class MainActivity extends ActionBarActivity implements MovieFragment.Callback  {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -21,35 +25,22 @@ public class MainActivity extends ActionBarActivity implements MovieFragment.Cal
         setContentView(R.layout.activity_main);
 
         mOrder = Utility.getPreferredOrder(this);
+        Log.d(LOG_TAG, "Dentro del onCreate MainActivity!!!!!");
+
 
         if (findViewById(R.id.movies_detail_container) != null) {
-            // The detail container view will be present only in the large-screen layouts
-            // (res/layout-sw600dp). If this view is present, then the activity should be
-            // in two-pane mode.
             mTwoPane = true;
             Log.d(LOG_TAG, "TABLET!!!!!");
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.movies_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {
+            Log.d(LOG_TAG, "Dentro del ELSE de onCreate MainActivity!!!!!");
             mTwoPane = false;
-            getSupportActionBar().setElevation(0f);
-        }
-        MovieFragment forecastFragment =  ((MovieFragment)getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_movies));
 
-        /*
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_movies, new MovieFragment())
-                    .commit();
         }
-        */
 
 
     }
@@ -63,14 +54,9 @@ public class MainActivity extends ActionBarActivity implements MovieFragment.Cal
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            //Toast.makeText(this, "ADD!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
@@ -98,9 +84,6 @@ public class MainActivity extends ActionBarActivity implements MovieFragment.Cal
     @Override
     public void onItemSelected(Uri contentUri) {
         if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
             Bundle args = new Bundle();
             args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
 
@@ -110,10 +93,20 @@ public class MainActivity extends ActionBarActivity implements MovieFragment.Cal
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.movies_detail_container, fragment, DETAILFRAGMENT_TAG)
                     .commit();
+
+            updateMovies(contentUri);
+
         } else {
 
+            updateMovies(contentUri);
             Intent intent = new Intent(this, DetailActivity.class).setData(contentUri);
             startActivity(intent);
         }
+    }
+
+    public void updateMovies(Uri uri){
+        new FetchTrailerMovieTask(this).execute(MovieContract.MovieEntry.getMovieIDbyUri(uri));
+        new FetchDetailMovieTask(this).execute(MovieContract.MovieEntry.getMovieIDbyUri(uri));
+
     }
 }

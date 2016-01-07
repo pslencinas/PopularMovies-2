@@ -23,12 +23,8 @@ import android.util.Log;
 import com.example.android.popularmoviesist2.data.MovieContract.MovieEntry;
 import com.example.android.popularmoviesist2.data.MovieContract.FavoriteEntry;
 
-/**
- * Manages a local database for weather data.
- */
 public class MovieDbHelper extends SQLiteOpenHelper {
 
-    // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 7;
 
     static final String DATABASE_NAME = "movie.db";

@@ -41,16 +41,6 @@ import java.util.ArrayList;
 public class FetchTrailerMovieTask extends AsyncTask<String, Void, String[]> {
 
     private final String LOG_TAG = FetchTrailerMovieTask.class.getSimpleName();
-    //private ArrayAdapter<String> mMoviesAdapter;
-
-    private int qtyMovies;
-    private String []resultTitle;
-    public static String []resultUrlMovies;
-    private String []resultOverview;
-    private String []resultAverage;
-    private String []resultRelease;
-    private String []resultId;
-    private String orderBy;
     private String movieId;
     public Context mContext;
     public static ArrayList<String> urlYoutbe = new ArrayList<String>();
@@ -108,7 +98,6 @@ public class FetchTrailerMovieTask extends AsyncTask<String, Void, String[]> {
 
         String moviesJsonStr = null;
 
-        int qtyMovies = 10;
         final String MOVIE_VIDEO_URL = "http://api.themoviedb.org/3/movie/"+movieId+"/videos";
 
         final String APIKEY_PARAM = "api_key";
@@ -120,14 +109,10 @@ public class FetchTrailerMovieTask extends AsyncTask<String, Void, String[]> {
 
             URL url = new URL(builtUri.toString());
 
-            //Log.v(LOG_TAG, "Built URI " + builtUri.toString());
-
-            // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {  return null;    }
@@ -142,8 +127,6 @@ public class FetchTrailerMovieTask extends AsyncTask<String, Void, String[]> {
             if (buffer.length() == 0) {  return null;     }
 
             moviesJsonStr = buffer.toString();
-
-            //Log.v(LOG_TAG, "Movies string: " + moviesJsonStr);
             return getMoviesDataFromJson(moviesJsonStr);
 
 
@@ -154,8 +137,6 @@ public class FetchTrailerMovieTask extends AsyncTask<String, Void, String[]> {
         }
         catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attemping
-            // to parse it.
             return null;
         } finally {
             if (urlConnection != null) {
@@ -171,7 +152,6 @@ public class FetchTrailerMovieTask extends AsyncTask<String, Void, String[]> {
         }
 
 
-        // This will only happen if there was an error getting or parsing the forecast.
         return null;
     }
 

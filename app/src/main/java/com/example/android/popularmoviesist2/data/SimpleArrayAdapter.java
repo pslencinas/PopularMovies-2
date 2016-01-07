@@ -13,9 +13,6 @@ import com.example.android.popularmoviesist2.R;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by pl691d on 1/4/2016.
- */
 public class SimpleArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final String[] values;
