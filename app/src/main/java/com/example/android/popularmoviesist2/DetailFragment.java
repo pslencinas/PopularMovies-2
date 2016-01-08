@@ -1,5 +1,7 @@
 package com.example.android.popularmoviesist2;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,9 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.popularmoviesist2.data.FetchDetailMovieTask;
 import com.example.android.popularmoviesist2.data.FetchTrailerMovieTask;
@@ -62,7 +66,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mOverviewView;
     private TextView mReleaseView;
     private TextView mAverageView;
-    public static Button mButton;
+    public static ImageButton mButton;
     public static TextView mReviewView;
     public static ListView mListView1;
 
@@ -97,6 +101,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mReleaseView = ((TextView) rootView.findViewById(R.id.release_text));
         mAverageView = ((TextView) rootView.findViewById(R.id.average_text));
         mReviewView = ((TextView) rootView.findViewById(R.id.review_text));
+        mButton = ((ImageButton) rootView.findViewById(R.id.imageButton));
 
         mListView1 = (ListView)rootView.findViewById(R.id.listViewTrailer);
 
@@ -110,10 +115,54 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             }
         });
 
+        mButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                addToFavorites();
+            }
+        });
+
 
         return rootView;
     }
 
+
+    public void addToFavorites(){
+
+            Context context = getActivity();
+            int duration = Toast.LENGTH_SHORT;
+
+            ContentValues movieValues = new ContentValues();
+
+            movieValues.put(MovieContract.FavoriteEntry.COLUMN_ID, DetailFragment.move_id);
+            movieValues.put(MovieContract.FavoriteEntry.COLUMN_POSTER, DetailFragment.url_poster);
+            movieValues.put(MovieContract.FavoriteEntry.COLUMN_TITLE, DetailFragment.title);
+            movieValues.put(MovieContract.FavoriteEntry.COLUMN_OVERVIEW, DetailFragment.overview);
+            movieValues.put(MovieContract.FavoriteEntry.COLUMN_VOTE, DetailFragment.vote);
+            movieValues.put(MovieContract.FavoriteEntry.COLUMN_RELEASE, DetailFragment.release);
+
+            if(MovieFragment.orderBy.equals("favorites")) {
+                int rowdeleted = context.getContentResolver().
+                        delete(MovieContract.FavoriteEntry.buildMovieUriByMovie(Long.parseLong(DetailFragment.move_id)),
+                                MovieContract.FavoriteEntry.COLUMN_ID + "=" + DetailFragment.move_id, null);
+
+                Toast toast = Toast.makeText(context, "Delete from Favorites", duration);
+                toast.show();
+
+            }else {
+                int rowdeleted = context.getContentResolver().
+                        delete(MovieContract.FavoriteEntry.buildMovieUriByMovie(Long.parseLong(DetailFragment.move_id)),
+                                MovieContract.FavoriteEntry.COLUMN_ID + "=" + DetailFragment.move_id, null);
+
+                Uri uri = context.getContentResolver().insert(MovieContract.FavoriteEntry.CONTENT_URI, movieValues);
+
+                Toast toast = Toast.makeText(context, "Added to Favorites", duration);
+                toast.show();
+
+            }
+
+
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -169,6 +218,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
             vote = data.getString(COL_VOTE);
             mAverageView.setText(vote);
+
+            if(MovieFragment.orderBy.equals("favorites")){
+                mButton.setBackgroundResource(R.drawable.del_favorite);
+            }
 
         }
     }

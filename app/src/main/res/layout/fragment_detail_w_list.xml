@@ -151,8 +151,8 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:id="@+id/imageButton"
-                android:background="@drawable/icon_favorite"
-                android:onClick="onClickFavorites"
+                android:background="@drawable/add_favorite"
+
                 android:layout_below="@+id/release_text"
                 android:layout_alignLeft="@+id/release_text"
                 android:layout_alignStart="@+id/release_text"

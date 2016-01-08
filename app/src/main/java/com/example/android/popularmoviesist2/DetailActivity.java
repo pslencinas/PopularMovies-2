@@ -66,6 +66,7 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
     public void onClickFavorites (View view){
        addToFavorites();
     }
@@ -94,6 +95,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+    */
 
 }
 

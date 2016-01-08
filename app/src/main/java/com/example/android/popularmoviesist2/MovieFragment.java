@@ -36,7 +36,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     public static GridView gridView;
     private int qtyMovies;
     private int mPosition = ListView.INVALID_POSITION;
-    private String orderBy;
+    public static String orderBy = "popular";
 
     public Context mContext;
 
