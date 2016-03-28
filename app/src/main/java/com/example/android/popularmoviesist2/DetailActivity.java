@@ -66,36 +66,6 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
-    public void onClickFavorites (View view){
-       addToFavorites();
-    }
-
-    public void addToFavorites(){
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-
-        ContentValues movieValues = new ContentValues();
-
-        movieValues.put(MovieContract.FavoriteEntry.COLUMN_ID, DetailFragment.move_id);
-        movieValues.put(MovieContract.FavoriteEntry.COLUMN_POSTER, DetailFragment.url_poster);
-        movieValues.put(MovieContract.FavoriteEntry.COLUMN_TITLE, DetailFragment.title);
-        movieValues.put(MovieContract.FavoriteEntry.COLUMN_OVERVIEW, DetailFragment.overview);
-        movieValues.put(MovieContract.FavoriteEntry.COLUMN_VOTE, DetailFragment.vote);
-        movieValues.put(MovieContract.FavoriteEntry.COLUMN_RELEASE, DetailFragment.release);
-
-        int rowdeleted= context.getContentResolver().
-                delete(MovieContract.FavoriteEntry.buildMovieUriByMovie(Long.parseLong(DetailFragment.move_id)),
-                        MovieContract.FavoriteEntry.COLUMN_ID + "=" + DetailFragment.move_id, null);
-
-        Uri uri = context.getContentResolver().insert(MovieContract.FavoriteEntry.CONTENT_URI, movieValues);
-
-        Toast toast = Toast.makeText(context, "Added to Favorites", duration);
-        toast.show();
-
-
-    }
-    */
 
 }
 

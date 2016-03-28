@@ -109,6 +109,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 Log.d("OnItemClick", "Movies position: " + FetchTrailerMovieTask.urlYoutbe.get(position));
+
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://www.youtube.com/watch?v=" + FetchTrailerMovieTask.urlYoutbe.get(position))));
 
